@@ -147,7 +147,7 @@ systemctl daemon-reload
 
 systemctl enable odoo15
 
-su $OE_USER -c "/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -i project,crm,purchase,sale_management,account,hr,stock,board,website,website_slides,website_hr_recruitment,helpdesk,mail,contacts,web_drop_target,mail_preview_base,dms,contract,l10n_ar_afipws,l10n_ar_afipws_fe,l10n_ar,report_xlsx,l10n_ar_reports --without-demo=all --load-language es_AR --stop-after-init" 2> /dev/null
+su $OE_USER -c "/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -i project,crm,purchase,sale_management,account,hr,stock,board,website,website_slides,website_hr_recruitment,helpdesk,mail,contacts,web_drop_target,mail_preview_base,dms,contract,l10n_ar_afipws,l10n_ar_afipws_fe,l10n_ar,report_xlsx,l10n_ar_reports,web_responsive --without-demo=all --load-language es_AR --stop-after-init" 2> /dev/null
 
 systemctl start odoo15
 
