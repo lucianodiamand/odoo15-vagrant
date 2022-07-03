@@ -6,9 +6,22 @@ OE_VERSION=15.0
 OE_HOME="/opt/odoo15/odoo"
 OE_CUSTOM_ADDONS="/opt/odoo15/odoo-custom-addons"
 OE_USER="odoo15"
+WKHTMLTOX_X64=wkhtmltox_0.12.5-1.bionic_amd64.deb
 
-print_usage () {
-  echo "You can access to odoo:"
+InstallDone () {
+echo "-----------------------------------------------------------"
+echo "Done! The Odoo server is up and running. Specifications:"
+#echo "Port: $OE_PORT"
+#echo "User service: $OE_USER"
+#echo "User PostgreSQL: $OE_USER"
+#echo "Code location: $OE_USER"
+#echo "Addons folder: $OE_USER/$OE_CONFIG/addons/"
+#echo "Password superadmin (database): $OE_SUPERADMIN"
+#echo "Start Odoo service: sudo service $OE_CONFIG start"
+#echo "Stop Odoo service: sudo service $OE_CONFIG stop"
+#echo "Restart Odoo service: sudo service $OE_CONFIG restart"
+#echo "-----------------------------------------------------------"
+#  echo "You can access to odoo:"
   echo "  Host: localhost"
   echo "  Port: 8069"
   echo "  Username: admin"
@@ -16,26 +29,54 @@ print_usage () {
   echo ""
 }
 
+#--------------------------------------------------
+# Update Server
+#--------------------------------------------------
+echo -e "\n---- Update Server ----"
 apt-get update -y
 apt-get dist-upgrade -y
 
-apt-get install -y git python3-pip build-essential wget python3-dev python3-venv \
-python3-wheel libfreetype6-dev libxml2-dev libzip-dev libldap2-dev libsasl2-dev \
-python3-setuptools node-less libjpeg-dev zlib1g-dev libpq-dev \
-libxslt1-dev libldap2-dev libtiff5-dev libjpeg8-dev libopenjp2-7-dev \
-liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev postgresql
+# Necesarios odoo
+apt-get install git -y
+apt-get install python3-pip -y
+apt-get install build-essential -y
+apt-get install wget -y
+apt-get install python3-dev -y
+apt-get install python3-venv -y
+apt-get install python3-wheel -y
+apt-get install libfreetype6-dev -y
+apt-get install libxml2-dev -y
+apt-get install libzip-dev -y
+apt-get install libldap2-dev -y
+apt-get install libsasl2-dev -y
+apt-get install python3-setuptools -y
+apt-get install node-less -y
+apt-get install libjpeg-dev -y
+apt-get install zlib1g-dev -y
+apt-get install libpq-dev -y
+apt-get install libxslt1-dev -y
+apt-get install libldap2-dev -y
+apt-get install libtiff5-dev -y
+apt-get install libjpeg8-dev -y
+apt-get install libopenjp2-7-dev -y
+apt-get install liblcms2-dev -y
+apt-get install libwebp-dev -y
+apt-get install libharfbuzz-dev -y
+apt-get install libfribidi-dev -y
+apt-get install libxcb1-dev -y
+apt-get install postgresql -y
 
 # Necesarios odoo-argentina-ce
-sudo apt install libssl-dev -y
-sudo apt install swig -y
+apt-get install libssl-dev -y
+apt-get install swig -y
 
 useradd -m -d /opt/odoo15 -U -r -s /bin/bash $OE_USER
 
 su - postgres -c "createuser -s odoo15"
 
-wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb 2> /dev/null
+wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/${WKHTMLTOX_X64} -P /tmp 2> /dev/null
 
-apt-get install ./wkhtmltox_0.12.5-1.bionic_amd64.deb -y
+apt-get install /tmp/${WKHTMLTOX_X64} -y
 
 #--------------------------------------------------
 # Install ODOO
@@ -60,11 +101,12 @@ git clone https://github.com/ingadhoc/odoo-argentina-ce.git $OE_CUSTOM_ADDONS/od
 git clone -b $OE_VERSION https://github.com/OCA/contract $OE_CUSTOM_ADDONS/contract 2> /dev/null
 git clone -b $OE_VERSION https://github.com/OCA/dms $OE_CUSTOM_ADDONS/dms 2> /dev/null
 git clone -b $OE_VERSION https://github.com/OCA/web /tmp/oca_web 2> /dev/null # Solo necesitamos web_drop_target 
-mv /tmp/oca_web/web_drop_target $OE_CUSTOM_ADDONS/web_drop_target
+mv /tmp/oca_web/web_drop_target $OE_CUSTOM_ADDONS
+mv /tmp/oca_web/web_responsive $OE_CUSTOM_ADDONS
 git clone -b $OE_VERSION https://github.com/OCA/social /tmp/oca_social 2> /dev/null # Solo necesitamos mail_preview_base
 mv /tmp/oca_social/mail_preview_base $OE_CUSTOM_ADDONS/mail_preview_base
 git clone -b $OE_VERSION https://github.com/OCA/reporting-engine /tmp/oca_reporting 2> /dev/null # Solo necesitamos report_xlsx
-mv /tmp/oca_reporting/report_xlsx $OE_CUSTOM_ADDONS/report_xlsx
+mv /tmp/oca_reporting/report_xlsx $OE_CUSTOM_ADDONS
 chown -R $OE_USER:$OE_USER $OE_CUSTOM_ADDONS
 
 echo -e "\n---- Install python packages/requirements for addons ----"
@@ -79,7 +121,7 @@ db_host = False
 db_port = False
 db_user = odoo15
 db_password = False
-addons_path = /opt/odoo15/odoo/addons,/opt/odoo15/odoo-custom-addons,/opt/odoo15/odoo-custom-addons/odoo-argentina-ce,/opt/odoo15/odoo-custom-addons/contract,/opt/odoo15/odoo-custom-addons/dms,/opt/odoo15/odoo-custom-addons/report_xlsx
+addons_path = /opt/odoo15/odoo/addons,/opt/odoo15/odoo-custom-addons,/opt/odoo15/odoo-custom-addons/odoo-argentina-ce,/opt/odoo15/odoo-custom-addons/contract,/opt/odoo15/odoo-custom-addons/dms,/opt/odoo15/odoo-custom-addons/report_xlsx,/opt/odoo15/odoo-custom-addons/web_responsive
 EOF
 
 cat << EOF > /etc/systemd/system/odoo15.service
@@ -111,5 +153,9 @@ systemctl start odoo15
 
 echo "Successfully created Odoo dev virtual machine."
 echo ""
-print_usage
+InstallDone
 
+# /opt/odoo15/odoo/odoo-bin --save --config myodoo.cfg --stop-after-init
+# /opt/odoo15/odoo/odoo-bin -c myodoo.cfg
+
+# /opt/odoo15/odoo/odoo-bin scaffold my_module ~/src/user
