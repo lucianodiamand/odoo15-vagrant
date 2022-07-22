@@ -72,6 +72,10 @@ apt-get install swig -y
 
 useradd -m -d /opt/odoo15 -U -r -s /bin/bash $OE_USER
 
+echo -e "\n---- Create Log directory ----"
+sudo mkdir /var/log/$OE_USER
+sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
+
 su - postgres -c "createuser -s odoo15"
 
 wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/${WKHTMLTOX_X64} -P /tmp 2> /dev/null
@@ -125,6 +129,8 @@ db_port = False
 db_user = odoo15
 db_password = False
 addons_path = /opt/odoo15/odoo/addons,/opt/odoo15/odoo-custom-addons,/opt/odoo15/odoo-custom-addons/odoo-argentina-ce,/opt/odoo15/odoo-custom-addons/contract,/opt/odoo15/odoo-custom-addons/dms,/opt/odoo15/odoo-custom-addons/report_xlsx,/opt/odoo15/odoo-custom-addons/web_responsive,/opt/odoo15/odoo-custom-addons/employee_extended
+
+logfile = /var/log/odoo15/odoo-server.log
 EOF
 
 cat << EOF > /etc/systemd/system/odoo15.service
