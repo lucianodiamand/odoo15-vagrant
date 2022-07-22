@@ -107,6 +107,9 @@ git clone -b $OE_VERSION https://github.com/OCA/social /tmp/oca_social 2> /dev/n
 mv /tmp/oca_social/mail_preview_base $OE_CUSTOM_ADDONS/mail_preview_base
 git clone -b $OE_VERSION https://github.com/OCA/reporting-engine /tmp/oca_reporting 2> /dev/null # Solo necesitamos report_xlsx
 mv /tmp/oca_reporting/report_xlsx $OE_CUSTOM_ADDONS
+
+ln -s /vagrant/addons/employee_extended /opt/odoo15/odoo-custom-addons/employee_extended
+
 chown -R $OE_USER:$OE_USER $OE_CUSTOM_ADDONS
 
 echo -e "\n---- Install python packages/requirements for addons ----"
@@ -121,7 +124,7 @@ db_host = False
 db_port = False
 db_user = odoo15
 db_password = False
-addons_path = /opt/odoo15/odoo/addons,/opt/odoo15/odoo-custom-addons,/opt/odoo15/odoo-custom-addons/odoo-argentina-ce,/opt/odoo15/odoo-custom-addons/contract,/opt/odoo15/odoo-custom-addons/dms,/opt/odoo15/odoo-custom-addons/report_xlsx,/opt/odoo15/odoo-custom-addons/web_responsive
+addons_path = /opt/odoo15/odoo/addons,/opt/odoo15/odoo-custom-addons,/opt/odoo15/odoo-custom-addons/odoo-argentina-ce,/opt/odoo15/odoo-custom-addons/contract,/opt/odoo15/odoo-custom-addons/dms,/opt/odoo15/odoo-custom-addons/report_xlsx,/opt/odoo15/odoo-custom-addons/web_responsive,/opt/odoo15/odoo-custom-addons/employee_extended
 EOF
 
 cat << EOF > /etc/systemd/system/odoo15.service
@@ -147,7 +150,7 @@ systemctl daemon-reload
 
 systemctl enable odoo15
 
-su $OE_USER -c "/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -i project,crm,purchase,sale_management,account,hr,stock,board,website,website_slides,website_hr_recruitment,helpdesk,mail,contacts,web_drop_target,mail_preview_base,dms,contract,l10n_ar_afipws,l10n_ar_afipws_fe,l10n_ar,report_xlsx,l10n_ar_reports,web_responsive --without-demo=all --load-language es_AR --stop-after-init" 2> /dev/null
+su $OE_USER -c "/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -i project,crm,purchase,sale_management,account,hr,stock,board,website,website_slides,website_hr_recruitment,helpdesk,mail,contacts,web_drop_target,mail_preview_base,dms,contract,l10n_ar_afipws,l10n_ar_afipws_fe,l10n_ar,report_xlsx,l10n_ar_reports,web_responsive,employee_extended --without-demo=all --load-language es_AR --stop-after-init" 2> /dev/null
 
 systemctl start odoo15
 
