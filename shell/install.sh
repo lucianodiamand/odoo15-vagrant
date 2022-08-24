@@ -112,6 +112,9 @@ mv /tmp/oca_social/mail_preview_base $OE_CUSTOM_ADDONS/mail_preview_base
 git clone -b $OE_VERSION https://github.com/OCA/reporting-engine /tmp/oca_reporting 2> /dev/null # Solo necesitamos report_xlsx
 mv /tmp/oca_reporting/report_xlsx $OE_CUSTOM_ADDONS
 
+# TODO ver si es necesario
+pip3 install pdfminer.six
+
 chown -R $OE_USER:$OE_USER $OE_CUSTOM_ADDONS
 
 echo -e "\n---- Install python packages/requirements for addons ----"
@@ -166,3 +169,7 @@ InstallDone
 # /opt/odoo15/odoo/odoo-bin -c myodoo.cfg
 
 # /opt/odoo15/odoo/odoo-bin scaffold my_module ~/src/user
+
+#odoo \
+#--addons-path="~/work15/library,~/work15/odoo/addons" \
+#-d library -c ~/work15/library.conf --save --stop
