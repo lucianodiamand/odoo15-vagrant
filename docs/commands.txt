@@ -1,0 +1,16 @@
+/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -i web_responsive --without-demo=all --load-language es_AR --stop-after-init
+
+/opt/odoo15/odoo/odoo-bin --save --config myodoo.cfg --stop-after-init
+
+/opt/odoo15/odoo/odoo-bin -c myodoo.cfg
+
+/opt/odoo15/odoo/odoo-bin scaffold my_module ~/src/user
+
+/opt/odoo15/odoo/odoo-bin --addons-path="~/work15/library,~/work15/odoo/addons" -d library -c ~/work15/library.conf --save --stop
+
+/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -d hcd -u library_app
+
+Probar
+--dev=all
+
+/opt/odoo15/odoo/odoo-bin -c /etc/odoo15.conf -u library_app --test-enable
