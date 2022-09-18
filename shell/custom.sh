@@ -10,7 +10,7 @@ OE_USER="odoo15"
 ln -s /vagrant/addons/employee_extended /opt/odoo15/odoo-custom-addons/employee_extended
 ln -s /vagrant/addons/coordinacion /opt/odoo15/odoo-custom-addons/coordinacion
 
-echo -e "* Adding custom addons"
+echo "* Adding custom addons"
 sed '/^addons_path/ s/$/,\/opt\/odoo15\/odoo-custom-addons\/employee_extended,\/opt\/odoo15\/odoo-custom-addons\/coordinacion/' /etc/odoo15.conf > /tmp/odoo15.conf
 mv /tmp/odoo15.conf /etc/odoo15.conf
 

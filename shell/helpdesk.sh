@@ -12,7 +12,7 @@ mv /tmp/oca_helpdesk/helpdesk_mgmt $OE_CUSTOM_ADDONS
 
 chown -R $OE_USER:$OE_USER $OE_CUSTOM_ADDONS
 
-echo -e "* Adding helpdesk addon"
+echo "* Adding helpdesk addon"
 sed '/^addons_path/ s/$/,\/opt\/odoo15\/odoo-custom-addons\/helpdesk_mgmt/' /etc/odoo15.conf > /tmp/odoo15.conf
 mv /tmp/odoo15.conf /etc/odoo15.conf
 
