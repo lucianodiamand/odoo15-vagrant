@@ -124,6 +124,9 @@ python3 -m easy_install /tmp/pyOpenSSL-22.1.0-py3-none-any.whl
 echo -e "\n---- Install python packages/requirements for addons ----"
 pip3 install -r $OE_CUSTOM_ADDONS/odoo-argentina-ce/requirements.txt
 
+# Fix permissions error when trying to generate invoice
+chmod 777 -R /usr/local/lib/python3.8/dist-packages/pyafipws
+
 echo -e "* Creating server config file"
 cat << EOF > /etc/odoo15.conf
 [options]
@@ -177,3 +180,9 @@ InstallDone
 #odoo \
 #--addons-path="~/work15/library,~/work15/odoo/addons" \
 #-d library -c ~/work15/library.conf --save --stop
+
+# postgres=# create user consulta with encrypted password 'consulta123';
+
+# postgres=# grant all privileges on database hcd to consulta;
+
+#PGUSER=consulta PGPASSWORD=consulta123 psql -h localhost -p 5432 hcd
