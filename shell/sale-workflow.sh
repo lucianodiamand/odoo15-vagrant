@@ -12,7 +12,7 @@ mv /tmp/oca_sale-workflow/sale_start_end_dates $OE_CUSTOM_ADDONS
 
 chown -R $OE_USER:$OE_USER $OE_CUSTOM_ADDONS
 
-echo "* Adding sale_satart_end_dates addon"
+echo "* Adding sale_start_end_dates addon"
 sed '/^addons_path/ s/$/,\/opt\/odoo15\/odoo-custom-addons\/sale_start_end_dates/' /etc/odoo15.conf > /tmp/odoo15.conf
 mv /tmp/odoo15.conf /etc/odoo15.conf
 
