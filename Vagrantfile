@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "helpdesk", type: "shell", path: "shell/helpdesk.sh"
   config.vm.provision "sale-workflow", type: "shell", path: "shell/sale-workflow.sh"
   config.vm.provision "account-closing", type: "shell", path: "shell/account-closing.sh"
+  config.vm.provision "multiple-date-picker", type: "shell", path: "shell/multiple_datepicker.sh"
   config.vm.provision "custom", type: "shell", path: "shell/custom.sh", run: "never"
 
 end
